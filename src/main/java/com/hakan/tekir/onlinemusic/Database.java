@@ -1,6 +1,7 @@
 package com.hakan.tekir.onlinemusic;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
 
@@ -20,7 +21,10 @@ public class Database {
             resultSet = psCheckUserExists.executeQuery();
 
             if(resultSet.isBeforeFirst()){
-                System.out.println("Başka bir kullanıcı adı girin!");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Hata");
+                alert.setHeaderText("Başka bir kullanıcı adı girin!");
+                alert.show();
             }
             else {
                 psInsert = connection.prepareStatement("INSERT INTO users (name, lastname, mail, username, password) VALUES (?, ?, ?, ?, ?)");
