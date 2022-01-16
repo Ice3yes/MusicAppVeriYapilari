@@ -71,7 +71,7 @@ public class Database {
         }
     }
 
-    public static User login(ActionEvent event,User user){
+    public static User login(User user){
         PreparedStatement preparedStatement;
         try{
             connection = DriverManager.getConnection(jbdcURL, dbuser, dbpassword);

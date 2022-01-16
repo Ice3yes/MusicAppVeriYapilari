@@ -21,7 +21,7 @@ public class LoginController {
     @FXML
     protected void onLoginButtonClick(ActionEvent event) throws IOException {
         if (!usernameField.getText().trim().isEmpty() && !passwordField.getText().trim().isEmpty()) {
-            User user = Database.login(event, new TempUser(usernameField.getText(), passwordField.getText()));
+            User user = Database.login(new TempUser(usernameField.getText(), passwordField.getText()));
             if (user != null) {
                 if (user.getClass()==Artist.class){
                     MainMenuController.artist= (Artist) user;

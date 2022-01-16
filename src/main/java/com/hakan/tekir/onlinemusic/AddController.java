@@ -1,11 +1,8 @@
 package com.hakan.tekir.onlinemusic;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,7 +13,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 
 public class AddController {
 
@@ -74,7 +70,7 @@ public class AddController {
     }
 
     @FXML
-    private void onNextButtonClick(ActionEvent event) throws IOException {
+    private void onNextButtonClick(ActionEvent event) {
         if (page==0) {
             if(textField.getText().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -13,10 +13,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PlayerController {
 
@@ -109,7 +106,7 @@ public class PlayerController {
         return String.format("%.2s:%.2s",duration.toMinutes() < 10 ? "0" + duration.toMinutes() : duration.toMinutes(),(duration.toSeconds()%60 < 10 ? "0" + duration.toSeconds()%60 : duration.toSeconds()%60));
     }
 
-    public void initialize() throws FileNotFoundException {
+    public void initialize() {
         for (Music music : musics){
             addMusic(music);
         }
