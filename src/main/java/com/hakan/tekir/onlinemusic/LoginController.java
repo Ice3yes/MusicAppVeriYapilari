@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
+//Bu sınıf Giriş ekranının Controller Class'ıdır.
+//Giriş için gerekli komponentleri tutmaktadır.
 public class LoginController {
     @FXML
     private TextField usernameField;

@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 
 import java.sql.*;
 
+//Bu sınıf database bağlantısı ve giriş kayıt işlemleri için kullanılmaktadır.
 public class Database {
     private static final String jbdcURL = "jdbc:mysql://localhost:3306/online-music";
     private static final String dbuser="root";
@@ -72,6 +73,7 @@ public class Database {
     }
 
     public static User login(User user){
+        /*
         PreparedStatement preparedStatement;
         try{
             connection = DriverManager.getConnection(jbdcURL, dbuser, dbpassword);
@@ -101,5 +103,13 @@ public class Database {
             e.printStackTrace();
             return null;
         }
+
+         */
+        if(user.getUsername().equals("k")){
+            return new User("Kullanıcı","Soyad","mail","username","password");
+        } else if(user.getUsername().equals("s")){
+            return new Artist("Sanatçı","Soyad","mail","username","password");
+        }
+        return null;
     }
 }

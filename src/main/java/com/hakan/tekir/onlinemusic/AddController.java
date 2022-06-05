@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+//Bu sınıf müzik eklemek için kullanılmaktadır
 public class AddController {
 
     public static Artist artist;

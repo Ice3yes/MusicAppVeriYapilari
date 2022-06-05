@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+//Bu sınıf kayıt olamanın Controller Class'ıdır.
 public class RegisterController {
 
     @FXML

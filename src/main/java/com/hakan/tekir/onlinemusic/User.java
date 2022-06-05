@@ -1,5 +1,7 @@
 package com.hakan.tekir.onlinemusic;
 
+//Bu sınıf kullanıcılar için oluşturulmuştur
+//Kullanıcı bilgilerini tutar
 public class User {
     protected String name;
     protected String lastname;

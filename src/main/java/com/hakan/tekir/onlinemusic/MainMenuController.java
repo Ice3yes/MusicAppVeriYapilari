@@ -16,12 +16,14 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
+
+//Bu sınıf ana menünün Controller Class'ıdır.
+//Ana menünün kompenentlerini tutmaktadır
 public class MainMenuController {
 
     public static Artist artist;
-    private ArrayList<Music> musicsArray = new ArrayList<>();
+    private MyQueue<Music> musicQueue = new MyQueue<>();
 
     @FXML
     private VBox vBox0;
@@ -57,10 +59,15 @@ public class MainMenuController {
         File folder = new File(System.getenv("APPDATA")+"/MusicApp/musics");
         File[] listOfArtists = folder.listFiles();
         if (listOfArtists != null) {
+            MyStack<File> myStack = new MyStack<>();
             for (File artist : listOfArtists) {
-                String artistName= artist.getName();
+                myStack.push(artist);
+            }
+            while (!myStack.isEmpty()) {
+                File newArtist = myStack.pop();
+                String artistName= newArtist.getName();
                 Artist artistObject=new Artist(artistName);
-                File[] listOfMusics = artist.listFiles();
+                File[] listOfMusics = newArtist.listFiles();
                 if (listOfMusics != null) {
                     for (File music : listOfMusics) {
                         String musicName= music.getName();
@@ -90,7 +97,7 @@ public class MainMenuController {
     private void createButtonForMusics(Music music){
         Button button = createButton(music);
         button.setOnAction(event -> {
-            musicsArray.add(music);
+            musicQueue.add(music);
             createButtonForPlaylist(music);
             vBox0.getChildren().remove(button);
         });
@@ -100,7 +107,7 @@ public class MainMenuController {
     private void createButtonForPlaylist(Music music){
         Button button = createButton(music);
         button.setOnAction(event -> {
-            musicsArray.remove(music);
+            musicQueue.remove();
             createButtonForMusics(music);
             vBox2.getChildren().remove(button);
         });
@@ -109,14 +116,18 @@ public class MainMenuController {
 
     @FXML
     public void onOpenPlayerButtonClick(ActionEvent event) throws IOException {
-        if(musicsArray.size()==0){
+        if(musicQueue.isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Hata");
             alert.setHeaderText("Lütfen oynatma listesine müzik ekleyin!");
             alert.show();
         }
         else {
-            PlayerController.musics = musicsArray;
+            MyQueue<Music>.Node<Music> cursor=musicQueue.root;
+            while (cursor!=null){
+                PlayerController.musics.add(cursor.value);
+                cursor=cursor.next;
+            }
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(MusicApp.class.getResource("player-view.fxml"));

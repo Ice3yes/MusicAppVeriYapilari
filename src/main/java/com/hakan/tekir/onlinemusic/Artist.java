@@ -2,10 +2,13 @@ package com.hakan.tekir.onlinemusic;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Stack;
 
+//Bu sınıf Sanatçıların bilgilerini ve müziklerini tutar
 public class Artist extends User{
 
-    private ArrayList<Music> musics = new ArrayList<>();
+    private MyHashTable musics = new MyHashTable();
 
     public Artist(String name){
         this.name=name;
@@ -17,7 +20,7 @@ public class Artist extends User{
         new File(System.getenv("APPDATA")+"/MusicApp/musics/"+name).mkdirs();
     }
 
-    public ArrayList<Music> getMusics() {
+    public MyHashTable getMusics() {
         return musics;
     }
 

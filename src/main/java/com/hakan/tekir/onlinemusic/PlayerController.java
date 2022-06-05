@@ -13,16 +13,17 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.util.ArrayList;
 
+//Bu sınıf oynatıcının Controller Class'ıdır
+//Oynatıcı için gerekli komponentleri tutar
 public class PlayerController {
 
     private final Image pause = new Image(new File("src/main/resources/com/hakan/tekir/onlinemusic/pause.png").toURI().toString());
     private final Image play = new Image(new File("src/main/resources/com/hakan/tekir/onlinemusic/play.png").toURI().toString());
     private MediaPlayer mediaPlayer;
     private boolean playPauseStatus=true;
-    ArrayList<Button> buttons = new ArrayList<>();
-    public static ArrayList<Music> musics;
+    MyLoopQueue buttons = new MyLoopQueue();
+    public static MyLinkedList<Music> musics=new MyLinkedList<>();
 
     @FXML
     private ImageView image;
@@ -46,6 +47,7 @@ public class PlayerController {
     private Label totalTime;
 
 
+    //Müzik eklemeyi sağlar ve buton oluşturur
     private void addMusic(Music music){
         ImageView imageView = new ImageView(music.getImageFile().toURI().toString());
         imageView.setFitHeight(50);
@@ -73,15 +75,14 @@ public class PlayerController {
             mediaPlayer.play();
             playPauseImage.setImage(pause);
             playPauseStatus=false;
-            for(Button buttoni: buttons){
-                buttoni.setDisable(false);
-            }
+            buttons.enableAll();
             button.setDisable(true);
         });
         vBox.getChildren().add(button);
         buttons.add(button);
     }
 
+    //Slider'ın ile ses ve süreyi birbirene bağlar
     private void sliderAction() {
         mediaPlayer.volumeProperty().bind(volumeSlider.valueProperty());
         mediaPlayer.totalDurationProperty().addListener((observableValue, duration, t1) -> {
@@ -102,24 +103,29 @@ public class PlayerController {
         });
     }
 
+    //Süreyi anlayabileceğimiz formata getirir
     private String durationFormatter(Duration duration){
         return String.format("%.2s:%.2s",duration.toMinutes() < 10 ? "0" + duration.toMinutes() : duration.toMinutes(),(duration.toSeconds()%60 < 10 ? "0" + duration.toSeconds()%60 : duration.toSeconds()%60));
     }
 
+    //Player açılmadan önce gerekli kodları çalıştırır
     public void initialize() {
-        for (Music music : musics){
-            addMusic(music);
+        MyLinkedList<Music>.Node<Music> cursor=musics.root;
+        while (cursor!=null){
+            addMusic(cursor.value);
+            cursor=cursor.next;
         }
-        buttons.get(0).fire();
+        buttons.cursor.value.fire();
         onPlayPauseButtonClick();
     }
 
 
+    //Durdur başlat butonunu çalıştırır
     @FXML
     private void onPlayPauseButtonClick(){
         if (playPauseStatus){ //Play
             if(mediaPlayer==null){
-                buttons.get(0).fire();
+                buttons.cursor.value.fire();
             }
             else {
                 mediaPlayer.play();
@@ -134,27 +140,34 @@ public class PlayerController {
         }
     }
 
+    //ileri butonunu çalıştırır
     @FXML
     private void onNextButtonClick(){
-        for(int i = 0; i< buttons.size()-1; i++){
+        buttons.cursor= buttons.cursor.next;
+        buttons.cursor.value.fire();
+        /*for(int i = 0; i< buttons.size()-1; i++){
             if(buttons.get(i).isDisable()){
                   buttons.get(i).setDisable(false);
                   buttons.get(i+1).fire();
                   break;
             }
-        }
+        }*/
     }
-
+    //Geri butonunu çalıştırır
     @FXML
     private void onPreviousButtonClick(){
-        for(int i = 1; i< buttons.size(); i++){
+        buttons.cursor= buttons.cursor.pre;
+        buttons.cursor.value.fire();
+        /*for(int i = 1; i< buttons.size(); i++){
             if(buttons.get(i).isDisable()){
                 buttons.get(i).setDisable(false);
                 buttons.get(i-1).fire();
                 break;
             }
-        }
+        }*/
     }
+
+    //Dosya ismini alır
     private static String getFileName(File file) {
         String fileName = "";
 

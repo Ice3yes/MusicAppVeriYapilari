@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+//Bu sınıf müzikleri tutmaktadır.
 public class Music {
 
     private String name;
@@ -42,6 +43,7 @@ public class Music {
         return artist;
     }
 
+    //Bu method müziği kaydetmek için kullanılmaktadır.
     public void write(){
         try {
             new File(System.getenv("APPDATA")+"/MusicApp/musics/"+artist.getName()+"/"+name).mkdirs();
